@@ -2,6 +2,7 @@ export class A11yOutline {
     static readonly DATA_ATTRIBUTE_NAME: string = 'data-a11y-outline';
 
     private isMouseDown: boolean = false;
+    private isEnabled: boolean = false;
     private eventMousedown: () => void = this.onMousedown.bind(this);
     private eventMouseup: () => void = this.onMouseup.bind(this);
     private eventFocusin: () => void = this.onFocusin.bind(this);
@@ -11,36 +12,45 @@ export class A11yOutline {
     }
 
     public start(): void {
+        if (this.isEnabled) return;
+        this.isEnabled = true;
         this.addEventListeners();
     }
 
     public stop(): void {
+        if (!this.isEnabled) return;
+        this.isEnabled = false;
         this.removeEventListeners();
+        this.resetDefaultOutline();
     }
 
     public updateFocusElementScope(focusElementScope: HTMLElement): void {
+        if (this.isEnabled) {
+            this.removeEventListeners()
+            this.resetDefaultOutline();
+        };
         this.focusElementScope = focusElementScope;
+        if (this.isEnabled) this.addEventListeners();
     }
 
     private addEventListeners(): void {
-        document.addEventListener('mousedown', this.eventMousedown);
-        document.addEventListener('touchstart', this.eventMousedown);
-        document.addEventListener('mouseup', this.eventMouseup);
-        document.addEventListener('touchend', this.eventMouseup);
-        document.addEventListener('focusin', this.eventFocusin);
+        this.focusElementScope.addEventListener('mousedown', this.eventMousedown);
+        this.focusElementScope.addEventListener('touchstart', this.eventMousedown);
+        this.focusElementScope.addEventListener('mouseup', this.eventMouseup);
+        this.focusElementScope.addEventListener('touchend', this.eventMouseup);
+        this.focusElementScope.addEventListener('focusin', this.eventFocusin);
     }
 
     private removeEventListeners(): void {
-        document.removeEventListener('mousedown', this.eventMousedown);
-        document.removeEventListener('touchstart', this.eventMousedown);
-        document.removeEventListener('mouseup', this.eventMouseup);
-        document.removeEventListener('touchend', this.eventMouseup);
-        document.removeEventListener('focusin', this.eventFocusin);
+        this.focusElementScope.removeEventListener('mousedown', this.eventMousedown);
+        this.focusElementScope.removeEventListener('touchstart', this.eventMousedown);
+        this.focusElementScope.removeEventListener('mouseup', this.eventMouseup);
+        this.focusElementScope.removeEventListener('touchend', this.eventMouseup);
+        this.focusElementScope.removeEventListener('focusin', this.eventFocusin);
     }
 
-    private onMousedown(): void {
+    private onMousedown(event: MouseEvent): void {
         this.isMouseDown = true;
-        this.removeOutline();
     }
 
     private onMouseup(): void {
@@ -49,6 +59,7 @@ export class A11yOutline {
 
     private onFocusin(): void {
         if (this.isMouseDown) {
+            this.removeOutline();
             return;
         }
         this.resetDefaultOutline();
@@ -66,11 +77,13 @@ export class A11yOutline {
     }
 
     private removeOutline(): void {
-        const refFocusElements: HTMLElement = this.focusElementScope.querySelector(':focus');
+        this.resetDefaultOutline();
+        const refFocusElement: HTMLElement = this.focusElementScope.querySelector(':focus');
+ 
+        if (!refFocusElement) return;
 
-        if (!refFocusElements) return;
-
-        refFocusElements.setAttribute(A11yOutline.DATA_ATTRIBUTE_NAME, 'none');
-        refFocusElements.style.outline = "none";
+        refFocusElement.setAttribute(A11yOutline.DATA_ATTRIBUTE_NAME, 'none');
+        refFocusElement.style.outline = "none";
+        
     }
 }
