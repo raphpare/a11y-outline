@@ -21,13 +21,13 @@ export class A11yOutline {
         if (!this.isEnabled) return;
         this.isEnabled = false;
         this.removeEventListeners();
-        this.resetDefaultOutline();
+        this.resetOutline();
     }
 
     public updateFocusElementScope(focusElementScope: HTMLElement): void {
         if (this.isEnabled) {
             this.removeEventListeners()
-            this.resetDefaultOutline();
+            this.resetOutline();
         };
         this.focusElementScope = focusElementScope;
         if (this.isEnabled) this.addEventListeners();
@@ -65,10 +65,10 @@ export class A11yOutline {
             this.removeOutline();
             return;
         }
-        this.resetDefaultOutline();
+        this.resetOutline();
     }
 
-    private resetDefaultOutline(): void {
+    private resetOutline(): void {
         const refFocusElements = this.focusElementScope.querySelectorAll(`[${A11yOutline.DATA_ATTRIBUTE_NAME}]`);
         
         refFocusElements.forEach((e: HTMLElement) => {
@@ -80,7 +80,7 @@ export class A11yOutline {
     }
 
     private removeOutline(): void {
-        this.resetDefaultOutline();
+        this.resetOutline();
         const refFocusElement: HTMLElement = this.getFocusElement();
  
         if (!refFocusElement) return;
