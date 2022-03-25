@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * :focus, button:focus, p:focus {
+        outline-color: blue;
+        outline-width: 2px;
+    }
+</style>
+<body>
+    <a href="#">Lien</a>
+    <button>Allo</button>
+
+
+    
+    <p tabindex="0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore recusandae maiores, qui atque consequuntur magnam nesciunt eligendi nam? Exercitationem animi officiis rem aperiam odit voluptates consectetur adipisci doloremque error omnis.</p>
+
+    <p tabindex="0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore recusandae maiores, qui atque consequuntur magnam nesciunt eligendi nam? Exercitationem animi officiis rem aperiam odit voluptates consectetur adipisci doloremque error omnis.</p>
+    <main>  
+        <p tabindex="0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore recusandae maiores, qui atque consequuntur magnam nesciunt eligendi nam? Exercitationem animi officiis rem aperiam odit voluptates consectetur adipisci doloremque error omnis.</p>
+
+        <p tabindex="0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore recusandae maiores, qui atque consequuntur magnam nesciunt eligendi nam? Exercitationem animi officiis rem aperiam odit voluptates consectetur adipisci doloremque error omnis.</p>
+    </main>
+    <script type="module">
+        import { A11yOutline } from './lib/index.esm.js';
+
+        const test = new A11yOutline();
+        test.stop();
+        test.start();
+    </script>
+</body>
+</html>

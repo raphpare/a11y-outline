@@ -1,0 +1,23 @@
+{
+    "name": "a11y-outline",
+    "version": "0.0.0",
+    "description": "",
+    "keywords": [],
+    "license": "ISC",
+    "author": "Raphaël Paré <raph.pare@outlook.com> (https://github.com/raphpare)",
+    "files": [
+        "lib"
+    ],
+    "main": "lib/index.js",
+    "module": "lib/index.esm.js",
+    "types": "lib/index.d.ts",
+    "scripts": {
+        "build": "rimraf lib && node esbuild.config.js && tsc && npm run typedoc",
+        "watch": "rimraf lib && node esbuild.config.js --watch",
+        "clean": "rimraf node_modules && rimraf lib && rimraf docs"
+    },
+    "devDependencies": {
+        "esbuild": "^0.14.2",
+        "typescript": "^4.5.2"
+    }
+}
