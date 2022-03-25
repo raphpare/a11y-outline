@@ -7,7 +7,7 @@ export class A11yOutline {
     private eventMouseup: () => void = this.onMouseup.bind(this);
     private eventFocusin: () => void = this.onFocusin.bind(this);
 
-    constructor(private focusElementScope: HTMLElement = document.body) {
+    constructor(private focusElementScope: HTMLElement = document.documentElement) {
         this.start();
     }
 
@@ -55,6 +55,9 @@ export class A11yOutline {
 
     private onMouseup(): void {
         this.isMouseDown = false;
+        const refFocusElement: HTMLElement = this.getFocusElement();
+        if (refFocusElement && refFocusElement.hasAttribute(A11yOutline.DATA_ATTRIBUTE_NAME)) return;
+        this.removeOutline();
     }
 
     private onFocusin(): void {
@@ -66,7 +69,7 @@ export class A11yOutline {
     }
 
     private resetDefaultOutline(): void {
-        const refFocusElements = document.querySelectorAll(`[${A11yOutline.DATA_ATTRIBUTE_NAME}]`);
+        const refFocusElements = this.focusElementScope.querySelectorAll(`[${A11yOutline.DATA_ATTRIBUTE_NAME}]`);
         
         refFocusElements.forEach((e: HTMLElement) => {
             e.removeAttribute(A11yOutline.DATA_ATTRIBUTE_NAME);
@@ -78,12 +81,16 @@ export class A11yOutline {
 
     private removeOutline(): void {
         this.resetDefaultOutline();
-        const refFocusElement: HTMLElement = this.focusElementScope.querySelector(':focus');
+        const refFocusElement: HTMLElement = this.getFocusElement();
  
         if (!refFocusElement) return;
 
         refFocusElement.setAttribute(A11yOutline.DATA_ATTRIBUTE_NAME, 'none');
         refFocusElement.style.outline = "none";
         
+    }
+
+    private getFocusElement(): HTMLElement | null {
+        return this.focusElementScope.querySelector(':focus');
     }
 }
