@@ -15,7 +15,6 @@ yarn add a11y-outline
 ## Example
 ### TypeScript
 ``` TS
-    import { A11yOutline } from 'a11y-outline';
-
-    const a11yOutline = new A11yOutline();
+import { A11yOutline } from 'a11y-outline';
+const a11yOutline = new A11yOutline();
 ```
